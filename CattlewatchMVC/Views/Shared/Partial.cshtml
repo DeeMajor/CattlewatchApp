@@ -1,0 +1,87 @@
+﻿@model CattlewatchMVC.Models.LivestockOrder
+
+
+<form id="myForm">
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(m => m.LivestockOrderId)
+
+    @Html.HiddenFor(m => m.LivestockId)
+
+    @Html.HiddenFor(m => m.OrderId)
+    @*@Html.HiddenFor(m => m.LocationId)*@
+
+
+
+    <div class="">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="row">
+            <div class="col-3">
+                @Html.LabelFor(model => model.number, htmlAttributes: new { @class = "control-label " })
+            </div>
+
+            <div class="col-md-5">
+                @Html.EditorFor(model => model.number, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.number, "", new { @class = "text-danger" })
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+</form>
+<br />
+<div class="modal-footer">
+    <a href="#" class="btn btn-default" data-dismiss="modal">Cancel</a>
+    <input type="reset" value="Submit" class="btn btn-success" id="btnSubmit" />
+
+</div>
+
+<div style="text-align:center;display:none" id="loaderDiv">
+    <img src="~/Content/InternetSlowdown_Day.gif" width="150" />
+</div>
+
+
+
+
+<script>
+
+    $(document).ready(function () {
+
+        $("#btnSubmit").click(function () {
+
+            $("#loaderDiv").show();
+
+            var myformdata = $("#myForm").serialize();
+
+            $.ajax({
+
+                type: "POST",
+                url: "/CDashboard/Numbers",
+                data: myformdata,
+                success: function () {
+                    $("#loaderDiv").hide();
+                    $("#myModal").modal("hide");
+                    //$('body').removeClass('modal-open');
+                    $('.modal-backdrop').remove();
+                },
+                error: function () {
+                    $("#loaderDiv").hide();
+                    $("#myModal").modal("hide");
+
+                    //$('body').removeClass('modal-open');
+                    $('.modal-backdrop').remove();
+                    window.location.href = "/CDashboard/Numbers";
+
+                }
+
+            })
+        })
+
+    })
+
+
+</script>

@@ -1,0 +1,124 @@
+﻿@model IEnumerable<CattlewatchMVC.Models.LivestockOrder>
+
+@{
+    ViewBag.Title = "Numbers";
+    Layout = "~/Views/Shared/_Clayout.cshtml";
+    List<int> num = new List<int>();
+
+}
+@*<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap.min.js"></script>*@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<h2>Numbers</h2>
+@using (Html.BeginForm("Edit", "CDashboard", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Livestock DataTable</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th> @Html.DisplayNameFor(model => model.Livestock.type)</th>
+                            <th>@Html.DisplayNameFor(model => model.number)</th>
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Livestock.type)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.number)
+                                </td>
+                                <td>
+                                    <div class="row">
+                                        @if (item.number < 1)
+                                        {
+                                            <a href="#" class="btn btn-success" onclick="AddEditLivestock(@item.LivestockOrderId)"> Input </a>
+
+                                        }
+                                        else
+                                        {
+                                            <a href="#" class="btn btn-warning" onclick="AddEditLivestock(@item.LivestockOrderId)"> Edit </a>
+                                        }
+
+                                        |
+                                        <div class="btn btn-sm btn-danger col-3">
+                                            @Html.ActionLink("Delete", "Delete", new { id = item.LivestockId })
+                                        </div>
+                                    </div>
+
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+
+                @foreach (var item in Model)
+                {
+
+                    num.Add(item.number);
+                }
+                @if (num.Contains(0))
+                {
+
+                }
+                else
+                {
+                    <div class="btn btn-sm btn-success">
+                        @Html.ActionLink("Next", "GetIfSameLocation")
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+}
+
+    <div class="modal fade" id="myModal1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Number</h3>
+                    <a href="#" class="close" data-dismiss="modal">&times;</a>
+
+                </div>
+                <div class="modal-body" id="myModalBodyDiv1">
+
+
+                </div>
+
+
+            </div>
+
+        </div>
+        <input type="hidden" id="hiddenEmployeeId" />
+
+    </div>
+
+<script>
+
+    var AddEditLivestock = function (livestockId) {
+
+        var url = "/CDashboard/AddEditLivestock?LivestockOrderId=" + livestockId;
+
+        $("#myModalBodyDiv1").load(url, function () {
+            $("#myModal1").modal("show");
+
+        })
+
+    }
+</script>

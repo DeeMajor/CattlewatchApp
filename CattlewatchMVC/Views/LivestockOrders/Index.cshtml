@@ -1,0 +1,46 @@
+﻿@model IEnumerable<CattlewatchMVC.Models.LivestockOrder>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Clayout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.number)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LivestockId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderId)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.number)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LivestockId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrderId)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.LivestockOrderId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.LivestockOrderId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.LivestockOrderId })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,134 @@
+﻿    @model CattlewatchMVC.Models.LivestockOrder
+    @using CattlewatchMVC.Models
+@{
+    Layout = "~/Views/Shared/_CLayout.cshtml";
+    ViewBag.Title = "Request";
+    ApplicationDbContext db = new ApplicationDbContext();
+    List<string> SelectedLivestock = new List<string>();
+    List<SelectListItem> listItems = new List<SelectListItem>();
+    foreach(var item in db.Livestocks)
+    {
+        listItems.Add(new SelectListItem {
+            Text = item.type,
+            Value = item.LivestockId.ToString()
+        });
+}
+}
+<style>
+    /* The container */
+    .container {
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        margin-bottom: 12px;
+        cursor: pointer;
+        font-size: 22px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+        /* Hide the browser's default checkbox */
+        .container input {
+            position: absolute;
+            opacity: 0;
+            cursor: pointer;
+            height: 0;
+            width: 0;
+        }
+
+    /* Create a custom checkbox */
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 25px;
+        width: 25px;
+        background-color: #eee;
+    }
+
+    /* On mouse-over, add a grey background color */
+    .container:hover input ~ .checkmark {
+        background-color: #ccc;
+    }
+
+    /* When the checkbox is checked, add a blue background */
+    .container input:checked ~ .checkmark {
+        background-color: #6cc091;
+    }
+
+    /* Create the checkmark/indicator (hidden when not checked) */
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    /* Show the checkmark when checked */
+    .container input:checked ~ .checkmark:after {
+        display: block;
+    }
+
+    /* Style the checkmark/indicator */
+    .container .checkmark:after {
+        left: 9px;
+        top: 5px;
+        width: 5px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+</style>
+@using (Html.BeginForm("Requesting", "CDashboard", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Request Quotation</h6>
+            </div>
+            <div class="card-body">
+                <div style="color:black">
+                    <div>
+                        The following are the livestock we can manage
+                        Select the livestock you want to protect
+                        <br />
+                        <hr />
+                        <br />
+                    </div>
+                
+                        @foreach (var item in listItems)
+                        {
+                            <div class="checkbox">
+                                <label class="container">
+                                    <input type="checkbox" name="SelectedLivestock" value="@item.Value"
+                                           @if (SelectedLivestock.Contains(item.Value)) { <text> checked </text> } />
+                                    <span class="checkmark"></span>
+                                    @item.Text
+                                </label>
+                            </div>
+                        }
+                    </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-1">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Next" class="btn btn-success " />
+                    </div>
+                </div>
+                @*<div class="col-lg-2">
+                    <div class="btn btn-success">
+                        @Html.ActionLink("Back to List", "Index")
+                    </div>
+                </div>*@
+            </div>
+            <br />
+        </div>
+
+    </div>
+}

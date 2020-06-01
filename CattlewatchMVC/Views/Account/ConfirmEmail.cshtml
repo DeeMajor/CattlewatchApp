@@ -1,0 +1,21 @@
+﻿@{
+    ViewBag.Title = "Confirm Email";
+    Layout = null;
+}
+<head>
+    <title>@ViewBag.Title -Cattlewatch Africa (PTY) LTD</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="~/Client/assets/css/main.css" />
+    <link rel="stylesheet" href="~/Client/assets/css/bootstrap.min.css" />
+</head>
+
+<section id="banner">
+    <div class="inner">
+        <div>
+            <p>
+                Thank you for confirming your email. Please @Html.ActionLink("Click here to Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
+            </p>
+        </div>
+        </div>
+    </section>

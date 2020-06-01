@@ -1,0 +1,68 @@
+﻿@model IEnumerable<CattlewatchMVC.Models.Livestock>
+
+@{
+    Layout = "~/Views/Shared/_ALayout.cshtml";
+    ViewBag.Title = "Index";
+}
+
+
+
+    <div class="btn btn-sm btn-success">
+        @Html.ActionLink("Add New", "Create")
+    </div>
+    <br />
+    <br />
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Livestock DataTable</h6>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th> @Html.DisplayNameFor(model => model.type)</th>
+                        <th>Position</th>
+
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th> @Html.DisplayNameFor(model => model.type)</th>
+                        <th>Position</th>
+
+                    </tr>
+                </tfoot>
+                <tbody>
+
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.type)
+                            </td>
+                            <td>
+                                <div class="btn btn-sm btn-success">
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.LivestockId })
+                                </div>
+                                |
+                                <div class="btn btn-sm btn-success">
+                                    @Html.ActionLink("Details", "Details", new { id = item.LivestockId })
+                                </div>
+                                |
+                                <div class="btn btn-sm btn-danger">
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.LivestockId })
+                                </div>
+                            
+                                
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,115 @@
+﻿@model IEnumerable<CattlewatchMVC.Models.LivestockOrder>
+@{
+    ViewBag.Title = "NotSameLocation";
+    Layout = "~/Views/Shared/_Clayout.cshtml";
+    List<int?> loc = new List<int?>();
+}
+
+@using (Html.BeginForm("Edit", "CDashboard", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Livestock DataTable</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th> @Html.DisplayNameFor(model => model.Livestock.type)</th>
+                            <th>@Html.DisplayNameFor(model => model.Location.CityName)</th>
+
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Livestock.type)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Location.CityName)
+                                </td>
+                                <td>
+                                    <div class="row">
+                                        @if (item.LocationId == null)
+                                        {
+                                            <a href="#" class="btn btn-success" onclick="AddEditLocation(@item.LivestockOrderId)"> Input </a>
+
+                                        }
+                                        else
+                                        {
+                                            <a href="#" class="btn btn-warning" onclick="AddEditLocation(@item.LivestockOrderId)"> Edit </a>
+                                        }
+
+                                        |
+
+                                    </div>
+
+                                </td>
+                            </tr>
+                        }
+
+                    </tbody>
+                </table>
+                @foreach (var item in Model)
+                {
+
+                    loc.Add(item.LocationId);
+                }
+                @if (loc.Contains(null))
+                {
+
+                }
+                else
+                {
+                    <div class="btn btn-sm btn-success">
+                        @Html.ActionLink("Next", "GetIfSameLocation")
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+}
+
+<div class="modal fade" id="myModal1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Location</h3>
+                <a href="#" class="close" data-dismiss="modal">&times;</a>
+
+            </div>
+            <div class="modal-body" id="myModalBodyDiv1">
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+</div>
+
+<script>
+
+    var AddEditLocation = function (livestockId) {
+
+        var url = "/CDashboard/AddEditLocation?LivestockOrderId=" + livestockId;
+
+        $("#myModalBodyDiv1").load(url, function () {
+            $("#myModal1").modal("show");
+
+        })
+
+    }
+</script>
